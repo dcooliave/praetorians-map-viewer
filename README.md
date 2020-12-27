@@ -1,7 +1,7 @@
 # praetmapviewer
 A browser based 3D map viewer for the PC game [Praetorians](https://en.wikipedia.org/wiki/Praetorians_(video_game)). Built with [three.js](https://threejs.org/).
 
-<img src="https://user-images.githubusercontent.com/10160581/103153151-53d85700-4743-11eb-8b0b-31bf667e95d2.jpg" width=50%>
-<img src="https://user-images.githubusercontent.com/10160581/103153182-98fc8900-4743-11eb-9518-28d0e9f5584e.jpg" width=50%>
-<img src="https://user-images.githubusercontent.com/10160581/103153184-9a2db600-4743-11eb-944a-ae22ca960822.jpg" width=50%>
-<img src="https://user-images.githubusercontent.com/10160581/103153186-9ac64c80-4743-11eb-9d2d-fd129dbcc87f.jpg" width=50%>
+<img src="https://user-images.githubusercontent.com/10160581/103165480-58e1e880-47cd-11eb-8e40-6b2cc89446aa.jpg">
+<img src="https://user-images.githubusercontent.com/10160581/103165482-5b444280-47cd-11eb-88ba-31f7d4ec5abe.jpg">
+<img src="https://user-images.githubusercontent.com/10160581/103165483-5bdcd900-47cd-11eb-9391-22f6a1e95731.jpg">
+<img src="https://user-images.githubusercontent.com/10160581/103165484-5d0e0600-47cd-11eb-8e8d-a4738ef99641.jpg">
