@@ -55,8 +55,8 @@ export default async function() {
   const nodes = [
     shadowGroup,
     opaqueGroup,
-    alphaGroup,
-    alphaTestGroup
+    alphaTestGroup,
+    alphaGroup
   ]
 
   nodes.forEach((n, i) => n.renderOrder = i)
