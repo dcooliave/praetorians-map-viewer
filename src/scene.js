@@ -4,13 +4,13 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer
-} from './src/three.module.js'
+} from './three.module.js'
 
-import { MapControls } from './src/OrbitControls.js'
+import { MapControls } from './OrbitControls.js'
 
-import { TileTypes, TileLogic } from './src/parse-mlg.js'
-import { TileFlags } from './src/parse-pve.js'
-import Viewer from './src/viewer.js'
+import { TileTypes, TileLogic } from './parse-mlg.js'
+import { TileFlags } from './parse-pve.js'
+import Viewer from './viewer.js'
 
 let camera
 let controller
