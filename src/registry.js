@@ -71,6 +71,7 @@ const FileRegistry = {
     for (const path of map.keys()) {
       if (path.endsWith(s)) {
         file = map.get(path)
+        break
       }
     }
 
