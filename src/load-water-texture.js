@@ -4,7 +4,7 @@ import {
   LinearMipMapLinearFilter,
   RepeatWrapping,
   RGBAFormat
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function(image) {
   const texture = new DataTexture(image, 256, 256)

@@ -5,7 +5,7 @@ import {
   RepeatWrapping,
   RGBAFormat,
   RGBFormat
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function(ptx) {
   const texture = new DataTexture(ptx.image, ptx.width, ptx.height)

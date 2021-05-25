@@ -2,7 +2,7 @@ import {
   BufferGeometry,
   Float32BufferAttribute,
   Uint16BufferAttribute
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function(vertices, indices) {
   const geometry = new BufferGeometry()

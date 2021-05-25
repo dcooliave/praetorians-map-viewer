@@ -3,7 +3,7 @@ import {
   InstancedMesh,
   Object3D,
   Uniform
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'

@@ -1,4 +1,4 @@
-import { Group, Uniform } from './three.module.js'
+import { Group, Uniform } from './three/build/three.module.js'
 
 import loadNature from './load-nature.js'
 import loadTile from './load-tile.js'

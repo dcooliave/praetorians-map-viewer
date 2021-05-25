@@ -1,7 +1,7 @@
 import {
   BufferGeometry,
   Float32BufferAttribute
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function() {
   const positions = []

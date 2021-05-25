@@ -1,4 +1,4 @@
-import { ShaderMaterial } from './three.module.js'
+import { ShaderMaterial } from './three/build/three.module.js'
 
 export default function createMaterial() {
   return new ShaderMaterial({

@@ -4,7 +4,7 @@ import {
   InstancedMesh,
   Object3D,
   Uniform
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 import loadNatureGeometry from './load-nature-geometry.js'
 import loadNatureMaterial from './load-nature-material.js'

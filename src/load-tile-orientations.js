@@ -1,4 +1,4 @@
-import { InstancedBufferAttribute } from './three.module.js'
+import { InstancedBufferAttribute } from './three/build/three.module.js'
 import { TileFlags } from './parse-pve.js'
 
 export default function(pve) {

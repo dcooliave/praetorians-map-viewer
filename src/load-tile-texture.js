@@ -3,7 +3,7 @@ import {
   LinearFilter,
   LinearMipMapLinearFilter,
   RGBFormat
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function(images) {
   function nextTile() {

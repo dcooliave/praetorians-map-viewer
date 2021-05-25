@@ -3,7 +3,7 @@ import {
   NearestFilter,
   RGBAFormat,
   UnsignedByteType
-} from './three.module.js'
+} from './three/build/three.module.js'
 
 export default function(pve) {
   const sizeX = pve.width * 2 + 1
