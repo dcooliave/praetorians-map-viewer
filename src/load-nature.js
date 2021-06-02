@@ -116,10 +116,11 @@ export default async function() {
       switch (surface.materialFlags) {
         case MaterialType.ALPHATEST:
         alphaTestGroup.add(mesh)
+        material.alphaTest = .5
         break
         case MaterialType.ALPHA:
         alphaGroup.add(mesh)
-        material.depthTest = false
+        material.alphaTest = .5
         break
         case MaterialType.SHADOW:
         shadowGroup.add(mesh)
