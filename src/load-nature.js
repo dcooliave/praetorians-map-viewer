@@ -82,7 +82,6 @@ export default async function() {
       material.uniforms.uTime = Viewer.timeUniform
       material.uniforms.uTexture = new Uniform(texture)
       material.side = DoubleSide
-      material.transparent = true
 
       const geometry = loadNatureGeometry(pbaGeom.vertices[index], surface.indices)
       geometry.setAttribute('aWind', instanceWind)
@@ -105,11 +104,20 @@ export default async function() {
         material.alphaTest = .5
         break
         case MaterialType.ALPHA:
+        material.transparent = true
         material.alphaTest = .5
+        const edgeMesh = mesh.clone()
+        edgeMesh.material = material.clone()
+        edgeMesh.material.uniforms.uTime = Viewer.timeUniform
+        edgeMesh.material.depthWrite = false
+        edgeMesh.material.alphaTest = 0
+        Viewer.nature.add(edgeMesh)
+        Viewer.resources.add(edgeMesh.material)
+        Viewer.resources.add(edgeMesh.material.uniforms.uTexture.value)
         break
         case MaterialType.SHADOW:
+        material.transparent = true
         material.depthWrite = false
-        material.depthTest = false
         break
       }
 
