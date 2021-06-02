@@ -69,9 +69,8 @@ export default async function() {
   Viewer.resources.add(dataset)
   Viewer.resources.add(material)
   Viewer.resources.add(geometry)
+  Viewer.tile.add(mesh)
 
   Viewer.pve = pveData
   Viewer.mlg = mlgData
-
-  return mesh
 }

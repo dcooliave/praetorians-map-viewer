@@ -10,8 +10,6 @@ import Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {
-  const meshes = []
-
   if (Viewer.mission.AGUA) {
     const data = parseH2O(await Registry.read(Viewer.mission.AGUA))
     const texture = loadWaterTexture(data.textures[0].image)
@@ -27,13 +25,10 @@ export default async function() {
       const geometry = loadWaterGeometry(geom.vertices, geom.indices)
       const mesh = new Mesh(geometry, material)
 
-      meshes.push(mesh)
-
       Viewer.resources.add(texture)
       Viewer.resources.add(material)
       Viewer.resources.add(geometry)
+      Viewer.water.add(mesh)
     }
   }
-
-  return meshes
 }

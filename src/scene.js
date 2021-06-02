@@ -1,6 +1,5 @@
 import {
   AxesHelper,
-  Group,
   PerspectiveCamera,
   Scene,
   WebGLRenderer
@@ -17,13 +16,6 @@ let controller
 let renderer
 let resizer
 let scene
-
-const settings = {
-  visibleLayers : {
-    nature: true,
-    water: true
-  }
-}
 
 window.ondragover = window.ondrop = async function(event) {
   event.preventDefault()
@@ -52,6 +44,7 @@ function init() {
   const rectangle = container.getBoundingClientRect()
 
   scene = new Scene()
+  scene.scale.z = -1
 
   renderer = new WebGLRenderer()
   renderer.setSize(rectangle.width, rectangle.height)
@@ -74,9 +67,7 @@ function init() {
   controller.maxDistance = 500
   controller.maxPolarAngle = Math.PI / 2
 
-  const axis = new AxesHelper(5)
-  axis.scale.z = -1
-  scene.add(axis)
+  scene.add(new AxesHelper(5))
 
   resizer = new ResizeObserver(resize)
   resizer.observe(container)
@@ -99,9 +90,8 @@ function showFlags(event) {
 
 function toggleLayer(event) {
   const { id, checked } = event.target
-  settings.visibleLayers[id] = checked
-  const node = scene.getObjectByName(id)
-  if (node) node.visible = checked
+  if (id == 'nature') Viewer.nature.visible = checked
+  else if (id == 'water') Viewer.water.visible = checked
 }
 
 function createList(id, flags, value, defaultVal) {
@@ -130,27 +120,18 @@ function createList(id, flags, value, defaultVal) {
 async function selectMap(event) {
   event.target.disabled = true
 
-  const current = scene.getObjectByName('map')
-  if (current) scene.remove(current)
+  scene.remove(Viewer.tile, Viewer.water, Viewer.nature)
 
   await Viewer.build(event.target.value)
 
-  const group = new Group()
-  group.scale.z = -1
-  group.name = 'map'
-
-  group.add(Viewer.tile)
-  group.add(Viewer.water)
-  group.add(Viewer.nature)
-
-  Viewer.water.visible = settings.visibleLayers.water
-  Viewer.nature.visible = settings.visibleLayers.nature
+  Viewer.water.visible = document.getElementById('water').checked
+  Viewer.nature.visible = document.getElementById('nature').checked
 
   Viewer.setTerrainLogic(document.getElementById('logic').value)
   Viewer.setTerrainType(document.getElementById('type').value)
   Viewer.setTerrainTile(document.getElementById('tile').value)
 
-  scene.add(group)
+  scene.add(Viewer.tile, Viewer.water, Viewer.nature)
 
   event.target.disabled = false
   event.target.focus()

@@ -1,6 +1,5 @@
 import {
   DoubleSide,
-  Group,
   InstancedMesh,
   Object3D,
   Uniform
@@ -46,20 +45,6 @@ export default async function() {
   for (const name of ptxNames) {
     ptxMap.set(name, Registry.read(`/${name}.ptx`).then(parsePTX).then(loadNatureTexture))
   }
-
-  const opaqueGroup = new Group()
-  const shadowGroup = new Group()
-  const alphaGroup = new Group()
-  const alphaTestGroup = new Group()
-
-  const nodes = [
-    shadowGroup,
-    opaqueGroup,
-    alphaTestGroup,
-    alphaGroup
-  ]
-
-  nodes.forEach((n, i) => n.renderOrder = i)
 
   const meshDummy = new Object3D()
   const instanceDummy = new Object3D()
@@ -113,22 +98,18 @@ export default async function() {
         mesh.setMatrixAt(i, instanceDummy.matrix)
       }
 
+      Viewer.nature.add(mesh)
+
       switch (surface.materialFlags) {
         case MaterialType.ALPHATEST:
-        alphaTestGroup.add(mesh)
         material.alphaTest = .5
         break
         case MaterialType.ALPHA:
-        alphaGroup.add(mesh)
         material.alphaTest = .5
         break
         case MaterialType.SHADOW:
-        shadowGroup.add(mesh)
         material.depthWrite = false
         material.depthTest = false
-        break
-        default:
-        opaqueGroup.add(mesh)
         break
       }
 
@@ -137,6 +118,4 @@ export default async function() {
       Viewer.resources.add(geometry)
     }
   }
-
-  return nodes
 }

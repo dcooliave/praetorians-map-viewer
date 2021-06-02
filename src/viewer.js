@@ -18,25 +18,16 @@ const Viewer = {
   },
 
   async build(name) {
-    this.mission = parseMSS(await Registry.readText(name))
+    this.nature.clear()
+    this.water.clear()
+    this.tile.clear()
+
     this.resources.forEach(r => r.dispose())
     this.resources.clear()
 
-    const tiles = loadTile()
-    const nature = loadNature()
-    const water = loadWater()
+    this.mission = parseMSS(await Registry.readText(name))
 
-    this.tile = new Group()
-    this.tile.name = 'tile'
-    this.tile.add(await tiles)
-
-    this.nature = new Group()
-    this.nature.name = 'nature'
-    this.nature.add(...await nature)
-
-    this.water = new Group()
-    this.water.name = 'water'
-    this.water.add(...await water)
+    await Promise.all([loadTile(), loadWater(), loadNature()])
   },
 
   update(time) {
@@ -44,39 +35,42 @@ const Viewer = {
   },
 
   setTerrainType(value) {
-    if (!this.tile) return
+    this.tile.traverse(child => {
+      if (child.type != 'Mesh') return
 
-    const attribute = this.tile.children[0].geometry.attributes.aFlag
+      const attribute = child.geometry.attributes.aFlag
+      for (const [i, logic] of this.mlg.entries()) {
+        attribute.array[i * 3 + 1] = (value == (logic & Masks.TERRAIN) >> 27) ? 1 : 0
+      }
 
-    for (const [i, logic] of this.mlg.entries()) {
-      attribute.array[i * 3 + 1] = (value == (logic & Masks.TERRAIN) >> 27) ? 1 : 0
-    }
-
-    attribute.needsUpdate = true
+      attribute.needsUpdate = true
+    })
   },
 
   setTerrainLogic(value) {
-    if (!this.tile) return
+    this.tile.traverse(child => {
+      if (child.type != 'Mesh') return
 
-    const attribute = this.tile.children[0].geometry.attributes.aFlag
+      const attribute = child.geometry.attributes.aFlag
+      for (const [i, logic] of this.mlg.entries()) {
+        attribute.array[i * 3] = (value & logic) ? 1 : 0
+      }
 
-    for (const [i, logic] of this.mlg.entries()) {
-      attribute.array[i * 3] = (value & logic) ? 1 : 0
-    }
-
-    attribute.needsUpdate = true
+      attribute.needsUpdate = true
+    })
   },
 
   setTerrainTile(value) {
-    if (!this.tile) return
+    this.tile.traverse(child => {
+      if (child.type != 'Mesh') return
 
-    const attribute = this.tile.children[0].geometry.attributes.aFlag
+      const attribute = child.geometry.attributes.aFlag
+      for (const [i, tile] of this.pve.tiles.entries()) {
+        attribute.array[i * 3 + 2] = (value & tile.flags) ? 1 : 0
+      }
 
-    for (const [i, tile] of this.pve.tiles.entries()) {
-      attribute.array[i * 3 + 2] = (value & tile.flags) ? 1 : 0
-    }
-
-    attribute.needsUpdate = true
+      attribute.needsUpdate = true
+    })
   }
 }
 
@@ -84,9 +78,9 @@ export default {
   timeUniform: new Uniform(0),
   resources: new Set(),
   mission: null,
-  nature: null,
-  water: null,
-  tile: null,
+  nature: new Group(),
+  water: new Group(),
+  tile: new Group(),
   pve: null,
   mlg: null,
   ...Viewer
