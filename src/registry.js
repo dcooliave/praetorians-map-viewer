@@ -1,5 +1,6 @@
 const files = {
   'h2o': new Map(),
+  'mis': new Map(),
   'mlg': new Map(),
   'mob': new Map(),
   'mss': new Map(),
