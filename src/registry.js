@@ -48,16 +48,11 @@ const FileRegistry = {
       const i = file.name.lastIndexOf('.')
       if (i == -1) continue
 
-      const path = file.fullPath.toLowerCase()
-      const type = file.name.slice(i + 1).toLowerCase()
-
-      if (this.files.has(type)) {
-        this.files.get(type).set(path, file)
-      } else {
-        this.files.set(type, new Map([[path, file]]))
+      const map = this.files[file.name.slice(i + 1).toLowerCase()]
+      if (map) {
+        map.set(file.fullPath.toLowerCase(), file)
+        added.push(file)
       }
-
-      added.push(file)
     }
 
     return added
@@ -65,7 +60,7 @@ const FileRegistry = {
 
   find(str) {
     const s = str.toLowerCase()
-    const map = this.files.get(s.slice(s.lastIndexOf('.') + 1))
+    const map = this.files[s.slice(s.lastIndexOf('.') + 1)]
     let file
 
     for (const path of map.keys()) {
@@ -98,6 +93,16 @@ const FileRegistry = {
 }
 
 export default {
-  files: new Map(),
+  files: {
+    'h2o': new Map(),
+    'mlg': new Map(),
+    'mob': new Map(),
+    'mss': new Map(),
+    'pba': new Map(),
+    'pra': new Map(),
+    'pte': new Map(),
+    'ptx': new Map(),
+    'pve': new Map()
+  },
   ...FileRegistry
 }
