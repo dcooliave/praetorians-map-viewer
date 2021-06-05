@@ -7,7 +7,7 @@ import loadWater from './load-water.js'
 import { Masks } from './parse-mlg.js'
 import parseMSS from './parse-mss.js'
 
-import Registry from './registry.js'
+import * as Registry from './registry.js'
 
 const Viewer = {
   async initialize(items) {

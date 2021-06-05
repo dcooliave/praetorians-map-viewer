@@ -6,7 +6,7 @@ import loadWaterTexture from './load-water-texture.js'
 
 import parseH2O from './parse-h2o.js'
 
-import Registry from './registry.js'
+import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {

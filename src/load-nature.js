@@ -14,7 +14,7 @@ import parseMOB from './parse-mob.js'
 import parsePBA, { MaterialType } from './parse-pba.js'
 import parsePTX from './parse-ptx.js'
 
-import Registry from './registry.js'
+import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {

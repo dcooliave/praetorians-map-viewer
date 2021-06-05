@@ -16,7 +16,7 @@ import parseMLG from './parse-mlg.js'
 import parsePTE from './parse-pte.js'
 import parsePVE from './parse-pve.js'
 
-import Registry from './registry.js'
+import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {
