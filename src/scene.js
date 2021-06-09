@@ -36,7 +36,6 @@ window.ondragover = window.ondrop = async function(event) {
   }
 
   maps.appendChild(frag)
-  maps.focus()
 }
 
 function init() {
@@ -134,7 +133,6 @@ async function selectMap(event) {
   scene.add(Viewer.tile, Viewer.water, Viewer.nature)
 
   event.target.disabled = false
-  event.target.focus()
 }
 
 function animate(time) {
