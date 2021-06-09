@@ -12,25 +12,14 @@ import loadTileCoordinates from './load-tile-coordinates.js'
 import loadTileOrientations from './load-tile-orientations.js'
 import loadTileGeometry from './load-tile-geometry.js'
 
-import parseMLG from './parse-mlg.js'
-import parsePTE from './parse-pte.js'
-import parsePVE from './parse-pve.js'
-
 import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {
-  const path = Viewer.mission.VISUAL
-  const slash = path.lastIndexOf('/')
-  const name = slash != -1 ? path.slice(slash + 1, -4) : path.slice(-4)
+  const { mission } = Viewer
 
-  const pveBuffer = Registry.read(path)
-  const pteBuffer = Registry.read(name + '.pte')
-  const mlgBuffer = Registry.read(Viewer.mission.LOGICO)
-
-  const pveData = parsePVE(await pveBuffer)
-  const pteData = parsePTE(await pteBuffer)
-  const mlgData = parseMLG(await mlgBuffer)
+  const pveData = mission.pve
+  const pteData = mission.pte
 
   const instanceCount = pveData.tiles.length
   const instanceCoord = loadTileCoordinates(pveData)
@@ -70,7 +59,4 @@ export default async function() {
   Viewer.resources.add(material)
   Viewer.resources.add(geometry)
   Viewer.tile.add(mesh)
-
-  Viewer.pve = pveData
-  Viewer.mlg = mlgData
 }

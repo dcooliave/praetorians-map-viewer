@@ -10,41 +10,22 @@ import loadNatureMaterial from './load-nature-material.js'
 import loadNatureTexture from './load-nature-texture.js'
 import loadNatureWind from './load-nature-wind.js'
 
-import parseMOB from './parse-mob.js'
-import parsePBA, { MaterialType } from './parse-pba.js'
-import parsePTX from './parse-ptx.js'
+import { MaterialType } from './parse-pba.js'
 
 import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {
-  const objects = parseMOB(await Registry.read(Viewer.mission.OBJETOS))
+  const { mission } = Viewer
 
-  const pbaMap = new Map()
-  const ptxMap = new Map()
-  const ptxNames = new Set()
+  const pbaMap = mission.pba
 
   const instanceMap = new Map()
-  const instanceNames = new Set(objects.map(o => o.name.toLowerCase()))
+  pbaMap.forEach((pba, name) => instanceMap.set(name, []))
+  mission.mob.forEach(obj => instanceMap.get(obj.name.toLowerCase()).push(obj))
 
-  for (const name of instanceNames) {
-    pbaMap.set(name, Registry.read(`/${name}.pba`).then(parsePBA))
-    instanceMap.set(name, [])
-  }
-
-  for (const obj of objects) {
-    instanceMap.get(obj.name.toLowerCase()).push(obj)
-  }
-
-  for (const [name, value] of pbaMap) {
-    const pba = await value
-    pba.textures.forEach(t => ptxNames.add(t.toLowerCase()))
-    pbaMap.set(name, pba)
-  }
-
-  for (const name of ptxNames) {
-    ptxMap.set(name, Registry.read(`/${name}.ptx`).then(parsePTX).then(loadNatureTexture))
-  }
+  const ptxMap = new Map()
+  mission.ptx.forEach((value, key) => ptxMap.set(key, loadNatureTexture(value)))
 
   const meshDummy = new Object3D()
   const instanceDummy = new Object3D()

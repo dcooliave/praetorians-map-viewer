@@ -1,11 +1,11 @@
 import { Group, Uniform } from './three/build/three.module.js'
 
+import loadMission from './load-mission.js'
 import loadNature from './load-nature.js'
 import loadTile from './load-tile.js'
 import loadWater from './load-water.js'
 
 import { Masks } from './parse-mlg.js'
-import parseMSS from './parse-mss.js'
 
 import * as Registry from './registry.js'
 
@@ -25,7 +25,7 @@ const Viewer = {
     this.resources.forEach(r => r.dispose())
     this.resources.clear()
 
-    this.mission = parseMSS(await Registry.readText(name))
+    this.mission = await loadMission(name)
 
     await Promise.all([loadTile(), loadWater(), loadNature()])
   },
@@ -39,7 +39,7 @@ const Viewer = {
       if (child.type != 'Mesh') return
 
       const attribute = child.geometry.attributes.aFlag
-      for (const [i, logic] of this.mlg.entries()) {
+      for (const [i, logic] of this.mission.mlg.entries()) {
         attribute.array[i * 3 + 1] = (value == (logic & Masks.TERRAIN) >> 27) ? 1 : 0
       }
 
@@ -52,7 +52,7 @@ const Viewer = {
       if (child.type != 'Mesh') return
 
       const attribute = child.geometry.attributes.aFlag
-      for (const [i, logic] of this.mlg.entries()) {
+      for (const [i, logic] of this.mission.mlg.entries()) {
         attribute.array[i * 3] = (value & logic) ? 1 : 0
       }
 
@@ -65,7 +65,7 @@ const Viewer = {
       if (child.type != 'Mesh') return
 
       const attribute = child.geometry.attributes.aFlag
-      for (const [i, tile] of this.pve.tiles.entries()) {
+      for (const [i, tile] of this.mission.pve.tiles.entries()) {
         attribute.array[i * 3 + 2] = (value & tile.flags) ? 1 : 0
       }
 
@@ -81,7 +81,5 @@ export default {
   nature: new Group(),
   water: new Group(),
   tile: new Group(),
-  pve: null,
-  mlg: null,
   ...Viewer
 }
