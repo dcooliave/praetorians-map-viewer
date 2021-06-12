@@ -24,18 +24,23 @@ window.ondragover = window.ondrop = async function(event) {
 
   if (!scene) init()
 
-  const entries = await Viewer.initialize(event.dataTransfer.items)
-  entries.sort()
+  const keys = await Viewer.initialize(event.dataTransfer.items)
+  keys.sort()
 
   const maps = document.getElementById('maps')
-  const frag = new DocumentFragment()
+  const children = []
 
-  for (const file of entries) {
-    const option = frag.appendChild(document.createElement('option'))
-    option.title = option.text = file
+  for (const child of maps.children) {
+    children.push(child.text)
   }
 
-  maps.appendChild(frag)
+  for (const key of keys) {
+    if (!children.includes(key)) {
+      const option = document.createElement('option')
+      option.text = key
+      maps.appendChild(option)
+    }
+  }
 }
 
 function init() {
