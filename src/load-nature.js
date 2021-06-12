@@ -12,7 +12,6 @@ import loadNatureWind from './load-nature-wind.js'
 
 import { MaterialType } from './parse-pba.js'
 
-import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {

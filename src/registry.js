@@ -1,4 +1,4 @@
-const files = {
+export const files = {
   'h2o': new Map(),
   'mis': new Map(),
   'mlg': new Map(),
@@ -49,56 +49,11 @@ async function *iterateItems(items) {
   }
 }
 
-function findItem(str) {
-  const s = str.toLowerCase()
-  const map = files[s.slice(s.lastIndexOf('.') + 1)]
-  let file
-
-  for (const path of map.keys()) {
-    if (path.endsWith(s)) {
-      file = map.get(path)
-      break
+export default async function(items) {
+  for await (const file of iterateItems(items)) {
+    if (file.name[file.name.length - 4] == '.') {
+      const ext = file.name.slice(-3).toLowerCase()
+      files[ext]?.set(file.fullPath.toLowerCase(), file)
     }
   }
-
-  return file
-}
-
-export async function load(items) {
-  const added = []
-
-  for await (const file of iterateItems(items)) {
-    const i = file.name.lastIndexOf('.')
-    if (i == -1) continue
-
-    const map = files[file.name.slice(i + 1).toLowerCase()]
-    if (!map) continue
-
-    map.set(file.fullPath.toLowerCase(), file)
-    added.push(file)
-  }
-
-  return added
-}
-
-export function readText(path) {
-  return new Promise((resolve, reject) => {
-    findItem(path).file(file => {
-      const reader = new FileReader()
-      reader.addEventListener('loadend', () => resolve(reader.result))
-      reader.addEventListener('error', reject)
-      reader.readAsText(file)
-    }, reject)
-  })
-}
-
-export function read(path) {
-  return new Promise((resolve, reject) => {
-    findItem(path).file(file => {
-      const reader = new FileReader()
-      reader.addEventListener('loadend', () => resolve(reader.result))
-      reader.addEventListener('error', reject)
-      reader.readAsArrayBuffer(file)
-    }, reject)
-  })
 }

@@ -12,7 +12,6 @@ import loadTileCoordinates from './load-tile-coordinates.js'
 import loadTileOrientations from './load-tile-orientations.js'
 import loadTileGeometry from './load-tile-geometry.js'
 
-import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {

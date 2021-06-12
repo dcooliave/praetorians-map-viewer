@@ -25,14 +25,14 @@ window.ondragover = window.ondrop = async function(event) {
   if (!scene) init()
 
   const entries = await Viewer.initialize(event.dataTransfer.items)
-  entries.sort((a, b) => a.name > b.name ? 1 : -1)
+  entries.sort()
 
   const maps = document.getElementById('maps')
   const frag = new DocumentFragment()
 
   for (const file of entries) {
     const option = frag.appendChild(document.createElement('option'))
-    option.title = option.text = file.fullPath
+    option.title = option.text = file
   }
 
   maps.appendChild(frag)

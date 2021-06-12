@@ -7,14 +7,16 @@ import loadWater from './load-water.js'
 
 import { Masks } from './parse-mlg.js'
 
-import * as Registry from './registry.js'
+import registerFiles, { files } from './registry.js'
 
 const Viewer = {
   async initialize(items) {
-    const registry = await Registry.load(items)
-    const type = /\.(mss|mis)$/i
+    await registerFiles(items)
 
-    return registry.filter(f => type.test(f.fullPath))
+    return [
+      ...files.mis.keys(),
+      ...files.mss.keys()
+    ]
   },
 
   async build(name) {

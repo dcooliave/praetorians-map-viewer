@@ -4,7 +4,6 @@ import loadWaterGeometry from './load-water-geometry.js'
 import loadWaterMaterial from './load-water-material.js'
 import loadWaterTexture from './load-water-texture.js'
 
-import * as Registry from './registry.js'
 import Viewer from './viewer.js'
 
 export default async function() {
