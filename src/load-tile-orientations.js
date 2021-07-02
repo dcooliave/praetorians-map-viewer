@@ -4,11 +4,9 @@ import { TileFlags } from './parse-pve.js'
 export default function(pve) {
   const size = 3
   const data = new Float32Array(pve.tiles.length * size)
-  const tileSize = 62 / 64
 
   for (let i = 0, l = pve.tiles.length; i < l; i++) {
     const tile = pve.tiles[i]
-    const ii = i * size
 
     let rotateUv = 0
 
@@ -16,18 +14,9 @@ export default function(pve) {
     else if (TileFlags.TEXTURE_ROTATE180 & tile.flags) rotateUv = 1
     else if (TileFlags.TEXTURE_ROTATE270 & tile.flags) rotateUv = 1.5
 
-    data[ii] = Math.PI * rotateUv
-
-    // TODO
-    data[ii + 1] = data[ii + 2] = tileSize
-
-    if (TileFlags.TEXTURE_MIRRORX & tile.flags) {
-      data[ii + 1] *= -1
-    }
-
-    if (TileFlags.TEXTURE_MIRRORY & tile.flags) {
-      data[ii + 2] *= -1
-    }
+    data[i * size] = Math.PI * rotateUv
+    data[i * size + 1] = (TileFlags.TEXTURE_MIRRORX & tile.flags) ? -1 : 1
+    data[i * size + 2] = (TileFlags.TEXTURE_MIRRORY & tile.flags) ? -1 : 1
   }
 
   return new InstancedBufferAttribute(data, size)

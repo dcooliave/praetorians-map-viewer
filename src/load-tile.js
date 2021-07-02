@@ -8,6 +8,7 @@ import {
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'
 import loadTileMaterial from './load-tile-material.js'
+import loadTileLayers from './load-tile-layers.js'
 import loadTileCoordinates from './load-tile-coordinates.js'
 import loadTileOrientations from './load-tile-orientations.js'
 import loadTileGeometry from './load-tile-geometry.js'
@@ -21,6 +22,7 @@ export default async function() {
   const pteData = mission.pte
 
   const instanceCount = pveData.tiles.length
+  const instanceLayer = loadTileLayers(pveData)
   const instanceCoord = loadTileCoordinates(pveData)
   const instanceOrientation = loadTileOrientations(pveData)
   const instanceType = new InstancedBufferAttribute(new Float32Array(instanceCount * 3), 3)
@@ -37,6 +39,7 @@ export default async function() {
   ]))
 
   const geometry = loadTileGeometry()
+  geometry.setAttribute('aLayer', instanceLayer)
   geometry.setAttribute('aCoordinate', instanceCoord)
   geometry.setAttribute('aOrientation', instanceOrientation)
   geometry.setAttribute('aFlag', instanceType)
