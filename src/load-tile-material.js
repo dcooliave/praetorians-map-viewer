@@ -36,10 +36,10 @@ export default function createMaterial() {
         vVertexColor = data0;
         vTileFlag = aFlag;
 
-        vec4 vert = vec4(position, 1.0);
-        vert.y += data1.r * (uElevation.x - uElevation.y) + uElevation.y;
+        vec3 pos = vec3(aCoordinate.x, 0, aCoordinate.y) + position;
+        pos.y += data1.r * (uElevation.x - uElevation.y) + uElevation.y;
 
-        gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vert;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
     `,
     fragmentShader: `

@@ -1,6 +1,6 @@
 import {
-  BufferGeometry,
-  Float32BufferAttribute
+  Float32BufferAttribute,
+  InstancedBufferGeometry
 } from './three/build/three.module.js'
 
 export default function() {
@@ -18,7 +18,7 @@ export default function() {
     }
   }
 
-  const geometry = new BufferGeometry()
+  const geometry = new InstancedBufferGeometry()
 
   geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
   geometry.setAttribute('uv', new Float32BufferAttribute(uvs, 2))

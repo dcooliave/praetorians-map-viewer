@@ -1,9 +1,4 @@
-import {
-  InstancedBufferAttribute,
-  InstancedMesh,
-  Object3D,
-  Uniform
-} from './three/build/three.module.js'
+import { Mesh, Object3D, Uniform } from './three/build/three.module.js'
 
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'
@@ -43,18 +38,10 @@ export default async function() {
   geometry.setAttribute('aCoordinate', instanceCoord)
   geometry.setAttribute('aOrientation', instanceOrientation)
   geometry.setAttribute('aFlag', instanceType)
+  geometry.instanceCount = instanceCount
 
-  const mesh = new InstancedMesh(geometry, material, instanceCount)
-  const dummy = new Object3D()
-
-  for (let z = 0; z < pveData.length; z++) {
-    for (let x = 0; x < pveData.width; x++) {
-      const tileIndex = z * pveData.width + x
-      dummy.position.set(x, 0, z)
-      dummy.updateMatrix()
-      mesh.setMatrixAt(tileIndex, dummy.matrix)
-    }
-  }
+  const mesh = new Mesh(geometry, material)
+  mesh.frustumCulled = false
 
   Viewer.resources.add(texture)
   Viewer.resources.add(dataset)
