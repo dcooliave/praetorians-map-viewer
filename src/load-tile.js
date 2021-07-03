@@ -6,6 +6,7 @@ import loadTileMaterial from './load-tile-material.js'
 import loadTileLayers from './load-tile-layers.js'
 import loadTileCoordinates from './load-tile-coordinates.js'
 import loadTileOrientations from './load-tile-orientations.js'
+import loadTileTypes from './load-tile-types.js'
 import loadTileGeometry from './load-tile-geometry.js'
 
 import Viewer from './viewer.js'
@@ -20,7 +21,7 @@ export default async function() {
   const instanceLayer = loadTileLayers(pveData)
   const instanceCoord = loadTileCoordinates(pveData)
   const instanceOrientation = loadTileOrientations(pveData)
-  const instanceType = new InstancedBufferAttribute(new Float32Array(instanceCount * 3), 3)
+  const instanceType = loadTileTypes(pveData)
 
   const texture = loadTileTexture(pteData)
   const dataset = loadTileDataset(pveData)
