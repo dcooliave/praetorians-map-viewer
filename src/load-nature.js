@@ -70,6 +70,7 @@ export default async function() {
 
       const mesh = new InstancedMesh(geometry, material, instanceCount)
       mesh.name = pbaMesh.name
+      mesh.matrixAutoUpdate = false
 
       for (const [i, obj] of instances.entries()) {
         instanceDummy.position.set(...obj.position)

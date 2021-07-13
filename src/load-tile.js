@@ -43,6 +43,7 @@ export default async function() {
 
   const mesh = new Mesh(geometry, material)
   mesh.frustumCulled = false
+  mesh.matrixAutoUpdate = false
 
   Viewer.resources.add(texture)
   Viewer.resources.add(dataset)
