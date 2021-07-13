@@ -92,11 +92,11 @@ export default async function() {
         const edgeMesh = mesh.clone()
         edgeMesh.material = material.clone()
         edgeMesh.material.uniforms.uTime = Viewer.timeUniform
+        edgeMesh.material.uniforms.uTexture = material.uniforms.uTexture
         edgeMesh.material.alphaTest = .1
         edgeMesh.renderOrder = 1
         Viewer.nature.add(edgeMesh)
         Viewer.resources.add(edgeMesh.material)
-        Viewer.resources.add(edgeMesh.material.uniforms.uTexture.value)
         break
         case MaterialType.SHADOW:
         material.transparent = true
