@@ -18,18 +18,15 @@ export default function createMaterial() {
 
       void main() {
         vec2 coord = (aCoordinate + uv) / 0.5;
-
         vec4 data0 = texelFetch(uDataset, ivec3(coord, 0), 0);
         vec4 data1 = texelFetch(uDataset, ivec3(coord, 1), 0);
 
         float size = .9;
         float angle = aOrientation.x;
-        vec2 mirror = aOrientation.yz * size;
-
-        mat2 scale = mat2(mirror.x, 0.0, 0.0, mirror.y);
+        vec2 mirror = aOrientation.yz;
         mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 
-        vec2 uvtile = (uv - 0.5) * rotation * scale + 0.5;
+        vec2 uvtile = (uv - 0.5) * rotation * mirror * size + 0.5;
         vTopUV = vec3(uvtile, aLayer.x);
         vBottomUV = vec3(uvtile, aLayer.y);
 
