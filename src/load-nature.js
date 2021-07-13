@@ -40,6 +40,8 @@ export default async function() {
     const transform = model.transforms.find(t => t.name == pbaMesh.name)
     const textures = model.textures.map(t => ptxMap.get(t.toLowerCase()))
 
+    meshDummy.matrix.identity()
+
     if (transform) {
       const [x, y, z] = transform.translation
       const [rw, rx, ry, rz] = transform.rotation
