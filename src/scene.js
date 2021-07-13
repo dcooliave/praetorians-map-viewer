@@ -65,7 +65,7 @@ function init() {
 
   controller = new MapControls(camera, renderer.domElement)
   controller.enableDamping = true
-  controller.dampingFactor = .08
+  controller.dampingFactor = .2
   controller.keyPanSpeed = 24
   controller.minDistance = 3
   controller.maxDistance = 500

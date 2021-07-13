@@ -58,7 +58,7 @@ export default async function() {
     instances.sort((a, b) => b.position[2] - a.position[2])
 
     for (const [index, surface] of pbaGeom.surfaces.entries()) {
-      const texture = await (textures[surface.textureID] || textures[0])
+      const texture = textures[surface.textureID] || textures[0]
 
       const material = loadNatureMaterial()
       material.uniforms.uTime = Viewer.timeUniform
