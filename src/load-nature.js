@@ -91,8 +91,7 @@ export default async function() {
         material.alphaTest = .5
         const edgeMesh = mesh.clone()
         edgeMesh.material = material.clone()
-        edgeMesh.material.uniforms.uTime = Viewer.timeUniform
-        edgeMesh.material.uniforms.uTexture = material.uniforms.uTexture
+        edgeMesh.material.uniforms = material.uniforms
         edgeMesh.material.alphaTest = .1
         edgeMesh.renderOrder = 1
         Viewer.nature.add(edgeMesh)
