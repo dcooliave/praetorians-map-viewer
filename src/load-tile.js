@@ -11,7 +11,7 @@ import loadTileGeometry from './load-tile-geometry.js'
 
 import Viewer from './viewer.js'
 
-export default async function() {
+export default function() {
   const { mission } = Viewer
 
   const pveData = mission.pve

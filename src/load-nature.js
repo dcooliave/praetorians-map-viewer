@@ -14,7 +14,7 @@ import { MaterialType } from './parse-pba.js'
 
 import Viewer from './viewer.js'
 
-export default async function() {
+export default function() {
   const { mission } = Viewer
 
   const pbaMap = mission.pba

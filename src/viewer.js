@@ -29,7 +29,9 @@ const Viewer = {
 
     this.mission = await loadMission(name)
 
-    await Promise.all([loadTile(), loadWater(), loadNature()])
+    loadTile()
+    loadWater()
+    loadNature()
   },
 
   update(time) {
