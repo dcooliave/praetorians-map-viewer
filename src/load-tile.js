@@ -1,12 +1,10 @@
-import { Mesh, Object3D, Uniform } from './three/build/three.module.js'
+import { Mesh, Uniform } from './three/build/three.module.js'
 
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'
 import loadTileMaterial from './load-tile-material.js'
-import loadTileLayers from './load-tile-layers.js'
-import loadTileCoordinates from './load-tile-coordinates.js'
-import loadTileOrientations from './load-tile-orientations.js'
 import loadTileTypes from './load-tile-types.js'
+import loadTileData from './load-tile-data.js'
 import loadTileGeometry from './load-tile-geometry.js'
 
 import Viewer from './viewer.js'
@@ -18,10 +16,8 @@ export default function() {
   const pteData = mission.pte
 
   const instanceCount = pveData.tiles.length
-  const instanceLayer = loadTileLayers(pveData)
-  const instanceCoord = loadTileCoordinates(pveData)
-  const instanceOrientation = loadTileOrientations(pveData)
   const instanceType = loadTileTypes(pveData)
+  const instanceData = loadTileData(pveData)
 
   const texture = loadTileTexture(pteData)
   const dataset = loadTileDataset(pveData)
@@ -35,9 +31,9 @@ export default function() {
   ]))
 
   const geometry = loadTileGeometry()
-  geometry.setAttribute('aLayer', instanceLayer)
-  geometry.setAttribute('aCoordinate', instanceCoord)
-  geometry.setAttribute('aOrientation', instanceOrientation)
+  geometry.setAttribute('aLayer', instanceData.layer)
+  geometry.setAttribute('aCoordinate', instanceData.coordinate)
+  geometry.setAttribute('aOrientation', instanceData.orientation)
   geometry.setAttribute('aFlag', instanceType)
   geometry.instanceCount = instanceCount
 
