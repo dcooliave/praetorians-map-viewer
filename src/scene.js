@@ -137,6 +137,8 @@ async function selectMap(event) {
 
   scene.add(Viewer.tile, Viewer.water, Viewer.nature)
 
+  controller.reset()
+
   event.target.disabled = false
 }
 
