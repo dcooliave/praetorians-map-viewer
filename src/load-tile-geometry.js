@@ -6,23 +6,27 @@ import {
 
 export default function() {
   const size = 5
-  const data = []
+  const buffer = new ArrayBuffer(9 * size * 4)
+  const floats = new Float32Array(buffer)
 
-  for (let y = 0; y < 3; y++) {
-    const w = y * 0.5
+  for (let i = 0; i < 9; i++) {
+    let offset = i * 5
 
-    for (let x = 0; x < 3; x++) {
-      const z = x * 0.5
+    const y = Math.floor(i / 3)
+    const x = i % 3
 
-      data.push(z, 0, w, z, w)
-    }
+    floats[offset++] = x * .5
+    floats[offset++] = 0
+    floats[offset++] = y * .5
+    floats[offset++] = x * .5
+    floats[offset++] = y * .5
   }
 
-  const buffer = new InterleavedBuffer(new Float32Array(data), size)
+  const floatBuffer = new InterleavedBuffer(floats, size)
 
   const geometry = new InstancedBufferGeometry()
-  geometry.setAttribute('position', new InterleavedBufferAttribute(buffer, 3, 0))
-  geometry.setAttribute('uv', new InterleavedBufferAttribute(buffer, 2, 3))
+  geometry.setAttribute('position', new InterleavedBufferAttribute(floatBuffer, 3, 0))
+  geometry.setAttribute('uv', new InterleavedBufferAttribute(floatBuffer, 2, 3))
   geometry.setIndex([
     4, 5, 1, 4, 1, 3,
     4, 3, 7, 4, 7, 5,
