@@ -41,6 +41,13 @@ const BufferCursor = {
     }
   },
 
+  buffer(size) {
+    const buffer = this.data.buffer.slice(this.position, this.position + size)
+    this.position += size
+
+    return buffer
+  },
+
   readUchar() {
     const value = this.data.getUint8(this.position, true)
     this.position += 1
