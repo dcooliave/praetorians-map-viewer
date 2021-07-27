@@ -8,7 +8,7 @@ import {
 } from './three/build/three.module.js'
 
 export default function(ptx) {
-  const texture = new DataTexture(ptx.image, ptx.width, ptx.height)
+  const texture = new DataTexture(new Uint8Array(ptx.image), ptx.width, ptx.height)
 
   texture.magFilter = LinearFilter
   texture.minFilter = LinearMipMapLinearFilter

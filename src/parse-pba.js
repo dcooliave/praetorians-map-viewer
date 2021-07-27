@@ -16,37 +16,7 @@ export const MaterialType = {
 }
 
 function readVertices(cursor) {
-  const numVertices = cursor.readUint()
-  const points = []
-  const normals = []
-  const colors = []
-  const uv = []
-
-  for (let i = 0; i < numVertices; i++) {
-    points.push(cursor.readFloat())
-    points.push(cursor.readFloat())
-    points.push(cursor.readFloat())
-
-    normals.push(cursor.readFloat())
-    normals.push(cursor.readFloat())
-    normals.push(cursor.readFloat())
-
-    colors.push(cursor.readUchar())
-    colors.push(cursor.readUchar())
-    colors.push(cursor.readUchar())
-    colors.push(cursor.readUchar())
-
-    uv.push(cursor.readFloat())
-    uv.push(cursor.readFloat())
-  }
-
-  return {
-    numVertices,
-    points,
-    normals,
-    colors,
-    uv,
-  }
+  return cursor.buffer(cursor.readUint() * 36)
 }
 
 function readTransform(cursor) {
@@ -69,7 +39,7 @@ function readRigidGeometry(cursor, format) {
 
     surface.textureID = cursor.readInt()
     surface.materialFlags = cursor.readUint()
-    surface.indices = Array.from({ length: cursor.readUint() }, cursor.readUshort, cursor)
+    surface.indices = cursor.buffer(cursor.readUint() * 2)
 
     const numTextures = (format == 1) ? 0 : cursor.readUint()
     surface.alternateTextures = Array.from({ length: numTextures }, cursor.readString, cursor)
@@ -97,7 +67,7 @@ function readAnimatedGeometry(cursor, format) {
     surface.textureID = cursor.readInt()
     surface.materialFlags = cursor.readUint()
     surface.numVertices = cursor.readUint()
-    surface.indices = Array.from({ length: cursor.readUint() }, cursor.readUshort, cursor)
+    surface.indices = cursor.buffer(cursor.readUint() * 2)
 
     const numTextures = (format == 1) ? 0 : cursor.readUint()
     surface.alternateTextures = Array.from({ length: numTextures }, cursor.readString, cursor)

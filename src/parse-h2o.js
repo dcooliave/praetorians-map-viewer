@@ -15,7 +15,7 @@ export default function(buffer) {
     const texture = {}
 
     texture.unknown = cursor.readChars(6)
-    texture.image = Uint8Array.from({ length: (256 ** 2) * 4 }, cursor.readUchar, cursor)
+    texture.image = cursor.buffer((256 ** 2) * 4)
 
     h2o.textures.push(texture)
   }
@@ -30,39 +30,12 @@ export default function(buffer) {
 
     geometry.unknown = Float32Array.from({ length: 8 }, cursor.readFloat, cursor)
     geometry.direction = Float32Array.from({ length: 4 }, cursor.readFloat, cursor)
-    geometry.vertices = readVertices(cursor)
-    geometry.indices = Array.from({ length: cursor.readUint() }, cursor.readUshort, cursor)
+    geometry.vertices = cursor.buffer(cursor.readUint() * 24)
+    geometry.indices = cursor.buffer(cursor.readUint() * 2)
 
     h2o.geometries.push(geometry)
   }
 
   return h2o
 
-  function readVertices(cursor) {
-    const numVertices = cursor.readUint()
-    const points = []
-    const colors = []
-    const uv = []
-
-    for (let i = 0; i < numVertices; i++) {
-      points.push(cursor.readFloat())
-      points.push(cursor.readFloat())
-      points.push(cursor.readFloat())
-
-      colors.push(cursor.readUchar())
-      colors.push(cursor.readUchar())
-      colors.push(cursor.readUchar())
-      colors.push(cursor.readUchar())
-
-      uv.push(cursor.readFloat())
-      uv.push(cursor.readFloat())
-    }
-
-    return {
-      numVertices,
-      points,
-      colors,
-      uv,
-    }
-  }
 }

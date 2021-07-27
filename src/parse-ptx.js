@@ -11,7 +11,7 @@ export default function(buffer) {
 
   const numComponents = ptx.bitsPerPixel / 8
   const length = ptx.width * ptx.height * numComponents
-  ptx.image = new Uint8Array(buffer, 18, length)
+  ptx.image = buffer.slice(18, 18 + length)
 
   return ptx
 }

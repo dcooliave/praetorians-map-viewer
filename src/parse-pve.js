@@ -40,8 +40,9 @@ export default function(buffer) {
   }
 
   const numVertices = (pve.width * 2 + 1) * (pve.length * 2 + 1)
-  pve.heights = new Uint8Array(buffer, pointer, numVertices)
-  pve.colors = new Uint8Array(buffer, pointer + numVertices, numVertices * 4)
+  pve.heights = buffer.slice(pointer, pointer + numVertices)
+  pointer += pve.heights.byteLength
+  pve.colors = buffer.slice(pointer, pointer + numVertices * 4)
 
   return pve
 }

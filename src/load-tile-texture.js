@@ -55,8 +55,7 @@ export default function(images) {
   let pointer = 0
 
   for (let i = 0; i < numImages; i++) {
-    const image = images[i]
-    const slice = sliceImage(image)
+    const slice = sliceImage(new Uint8Array(images[i]))
     slices.push(...slice)
   }
 

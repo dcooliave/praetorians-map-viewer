@@ -8,7 +8,7 @@ export default function(buffer) {
   let pointer = 16
 
   for (let i = 0; i < numTextures; i++) {
-    const image = new Uint8Array(buffer, pointer, (256 ** 2) * 3)
+    const image = buffer.slice(pointer, pointer + (256 ** 2) * 3)
 
     pointer += image.byteLength
 

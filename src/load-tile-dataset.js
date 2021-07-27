@@ -13,18 +13,19 @@ export default function(pve) {
   const rgbaSize = rgbaArea * 4
   const depth = 2
 
-  const buffer = new ArrayBuffer(rgbaSize * depth)
-  const layers = new Uint8Array(buffer)
+  const layers = new Uint8Array(rgbaSize * depth)
+  const temp = new Uint8Array(rgbaSize)
 
-  layers.subarray(0, rgbaSize).set(pve.colors)
+  const colors = new Uint8Array(pve.colors)
+  const heights = new Uint8Array(pve.heights)
 
-  const data = new Uint8Array(rgbaSize)
+  layers.set(colors)
 
   for (let i = 0; i < rgbaArea; i++) {
-    data[i * 4] = pve.heights[i]
+    temp[i * 4] = heights[i]
   }
 
-  layers.subarray(rgbaSize, rgbaSize * 2).set(data)
+  layers.set(temp, colors.byteLength)
 
   const texture = new DataTexture2DArray(layers, sizeX, sizeY, depth)
 
