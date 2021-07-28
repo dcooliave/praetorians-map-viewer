@@ -44,15 +44,7 @@ export const TileTypes = {
 
 export default function(buffer) {
   const data = new DataView(buffer)
+  const count = data.getUint32(0, true) * data.getUint32(4, true)
 
-  const numFlags = data.getUint32(0, true) * data.getUint32(4, true)
-  const logic = []
-
-  let pointer = 8
-
-  for (let i = 0; i < numFlags; i++) {
-    logic.push(data.getUint32(pointer + i * 4, true))
-  }
-
-  return logic
+  return buffer.slice(8, 8 + count * 4)
 }
