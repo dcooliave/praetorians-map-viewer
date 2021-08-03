@@ -42,7 +42,8 @@ const BufferCursor = {
   },
 
   buffer(size) {
-    const buffer = this.data.buffer.slice(this.position, this.position + size)
+    const offset = this.data.byteOffset + this.position
+    const buffer = this.data.buffer.slice(offset, offset + size)
     this.position += size
 
     return buffer
