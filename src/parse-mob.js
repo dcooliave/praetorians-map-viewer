@@ -13,7 +13,7 @@ export default function(buffer) {
 
     object.flags = cursor.readUint()
     object.name = cursor.readString(64)
-    object.position = Array.from({ length: 3 }, cursor.readFloat, cursor)
+    object.position = Float32Array.from({ length: 3 }, cursor.readFloat, cursor)
     object.orientation = cursor.readFloat()
     object.wind = cursor.readFloat()
 

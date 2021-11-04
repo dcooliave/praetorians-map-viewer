@@ -23,8 +23,8 @@ function readTransform(cursor) {
   return {
     name: cursor.readString(),
     parent: cursor.readInt(),
-    rotation: Array.from({ length: 4 }, cursor.readFloat, cursor),
-    translation: Array.from({ length: 3 }, cursor.readFloat, cursor)
+    rotation: Float32Array.from({ length: 4 }, cursor.readFloat, cursor),
+    translation: Float32Array.from({ length: 3 }, cursor.readFloat, cursor)
   }
 }
 
@@ -84,7 +84,7 @@ function readMesh(cursor, format) {
   const mesh = {}
   mesh.type = cursor.readUint()
   mesh.name = cursor.readString()
-  mesh.sphere = Array.from({ length: 4 }, cursor.readFloat, cursor)
+  mesh.sphere = Float32Array.from({ length: 4 }, cursor.readFloat, cursor)
 
   if (mesh.type == ModelType.RIGIDA) {
     mesh.geometry = readRigidGeometry(cursor, format)
