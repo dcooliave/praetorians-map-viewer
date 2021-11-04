@@ -10,15 +10,17 @@ export default function() {
   const { mission } = Viewer
 
   if (mission.h2o) {
-    const texture = loadWaterTexture(mission.h2o.textures[0].image)
+    const textures = mission.h2o.textures.map(t => loadWaterTexture(t.image))
 
     for (const geom of mission.h2o.geometries) {
+      const texture = textures[geom.textureID]
+
       const material = loadWaterMaterial()
       material.transparent = true
       material.depthWrite = false
       material.uniforms.uTime = Viewer.timeUniform
       material.uniforms.uTexture = new Uniform(texture)
-      material.uniforms.uDirection = new Uniform(geom.direction.subarray(0, 2))
+      material.uniforms.uDirection = new Uniform(geom.direction)
 
       const geometry = loadWaterGeometry(geom.vertices, geom.indices)
       const mesh = new Mesh(geometry, material)

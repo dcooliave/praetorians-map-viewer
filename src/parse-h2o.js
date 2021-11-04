@@ -29,7 +29,9 @@ export default function(buffer) {
     cursor.push()
 
     geometry.unknown = Float32Array.from({ length: 8 }, cursor.readFloat, cursor)
-    geometry.direction = Float32Array.from({ length: 4 }, cursor.readFloat, cursor)
+    geometry.direction = Float32Array.from({ length: 2 }, cursor.readFloat, cursor)
+    geometry.unknown2 = cursor.readFloat()
+    geometry.textureID = cursor.readInt()
     geometry.vertices = cursor.buffer(cursor.readUint() * 24)
     geometry.indices = cursor.buffer(cursor.readUint() * 2)
 
