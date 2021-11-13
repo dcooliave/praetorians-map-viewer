@@ -11,8 +11,7 @@ export default function createMaterial() {
       attribute vec3 aOrientation;
       attribute vec3 aFlag;
 
-      varying vec3 vTopUV;
-      varying vec3 vBottomUV;
+      varying vec4 vTileLayer;
       varying vec4 vVertexColor;
       varying vec3 vTileFlag;
 
@@ -26,9 +25,8 @@ export default function createMaterial() {
         vec2 mirror = aOrientation.yz;
         mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
 
-        vec2 uvtile = (uv - 0.5) * rotation * mirror * size + 0.5;
-        vTopUV = vec3(uvtile, aLayer.x);
-        vBottomUV = vec3(uvtile, aLayer.y);
+        vTileLayer.xy = (uv - 0.5) * rotation * mirror * size + 0.5;
+        vTileLayer.zw = aLayer;
 
         vVertexColor = data0;
         vTileFlag = aFlag;
@@ -42,14 +40,13 @@ export default function createMaterial() {
     fragmentShader: `
       uniform lowp sampler2DArray uTexture;
 
-      varying vec3 vTopUV;
-      varying vec3 vBottomUV;
+      varying vec4 vTileLayer;
       varying vec4 vVertexColor;
       varying vec3 vTileFlag;
 
       void main() {
-        vec4 top = texture(uTexture, vTopUV);
-        vec4 bottom = texture(uTexture, vBottomUV);
+        vec4 top = texture(uTexture, vec3(vTileLayer.xy, vTileLayer.z));
+        vec4 bottom = texture(uTexture, vec3(vTileLayer.xy, vTileLayer.w));
 
         vec4 logic = vec4(1.0, 0.0, 0.0, 0.0);
         vec4 type = vec4(0.0, 1.0, 0.0, 0.0);
