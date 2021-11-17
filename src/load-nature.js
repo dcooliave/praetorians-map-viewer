@@ -63,7 +63,6 @@ export default function() {
       const material = loadNatureMaterial()
       material.uniforms.uTime = Viewer.timeUniform
       material.uniforms.uTexture = new Uniform(texture)
-      material.side = DoubleSide
 
       const geometry = loadNatureGeometry(pbaGeom.vertices[index], surface.indices)
       geometry.setAttribute('aWind', instanceWind)
