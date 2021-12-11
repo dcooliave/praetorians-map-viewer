@@ -1,5 +1,5 @@
 import {
-  DoubleSide,
+  LessDepth,
   InstancedMesh,
   Object3D,
   Uniform
@@ -87,11 +87,13 @@ export default function() {
         break
         case MaterialType.ALPHA:
         material.transparent = true
-        material.alphaTest = .5
+        material.alphaTest = .75
         const edgeMesh = mesh.clone()
         edgeMesh.material = material.clone()
         edgeMesh.material.uniforms = material.uniforms
         edgeMesh.material.alphaTest = .1
+        edgeMesh.material.depthFunc = LessDepth
+        edgeMesh.material.depthWrite = false
         edgeMesh.renderOrder = 1
         Viewer.nature.add(edgeMesh)
         Viewer.resources.add(edgeMesh.material)
