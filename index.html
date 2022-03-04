@@ -9,7 +9,15 @@
 
     <title>Praetorians Map Viewer</title>
 
-    <link rel="stylesheet" href="src/tachyons.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.skypack.dev/three@0.138.0",
+        "orbit-controls": "https://cdn.skypack.dev/three@0.138.0/examples/jsm/controls/OrbitControls"
+      }
+    }
+    </script>
+
     <script type="module" src="src/scene.js"></script>
 
     <style>
@@ -23,49 +31,63 @@
         align-items: center;
         justify-content: center;
       }
+      body {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+      }
+      .flex {
+        display: flex;
+      }
+      .column {
+        flex-flow: column;
+      }
+      .stretch {
+        flex: auto;
+      }
+      .noflow {
+        overflow: hidden;
+      }
+      .margin {
+        margin: 0 4px;
+      }
     </style>
 
   </head>
 
-  <body class="absolute absolute--fill overflow-hidden flex flex-column f6">
-
-    <div class="flex bb b--black-20 h2">
-      <select id="maps" class="w-30 bn bg-transparent">
+  <body class="flex column noflow">
+    <div class="flex">
+      <select id="maps">
         <option disabled hidden selected>Missions</option>
       </select>
 
-      <div class="br b--black-20"></div>
-
-      <select id="logic" class="flex-auto bn bg-transparent">
+      <select id="logic">
         <option disabled hidden selected>Logic</option>
       </select>
 
-      <div class="br b--black-20"></div>
-
-      <select id="type" class="flex-auto bn bg-transparent">
+      <select id="type">
         <option disabled hidden selected>Type</option>
       </select>
 
-      <div class="br b--black-20"></div>
-
-      <select id="tile" class="flex-auto bn bg-transparent">
+      <select id="tile">
         <option disabled hidden selected>Flags</option>
       </select>
 
-      <div class="br b--black-20"></div>
-
-      <label class="flex items-center ph2">
-        <input type="checkbox" id="nature" class="mr1" checked>
+      <label class="margin">
+        <input type="checkbox" id="nature" checked>
         <span>Nature</span>
       </label>
 
-      <label class="flex items-center ph2">
-        <input type="checkbox" id="water" class="mr1" checked>
+      <label class="margin">
+        <input type="checkbox" id="water" checked>
         <span>Water</span>
       </label>
     </div>
 
-    <div id="scene" class="flex-auto relative"></div>
+    <div id="scene" class="stretch"></div>
 
   </body>
 

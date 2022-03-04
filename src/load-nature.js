@@ -1,9 +1,10 @@
 import {
+  DataTexture,
   LessDepth,
   InstancedMesh,
   Object3D,
   Uniform
-} from './three/build/three.module.js'
+} from 'three'
 
 import loadNatureGeometry from './load-nature-geometry.js'
 import loadNatureMaterial from './load-nature-material.js'
@@ -32,6 +33,9 @@ export default function() {
   const modelNames = [...pbaMap.keys()]
   modelNames.sort()
 
+  const defaultTexture = new DataTexture(new Uint8Array([255, 255, 255, 255]))
+  defaultTexture.needsUpdate = true
+
   for (const modelName of modelNames) {
     const model = pbaMap.get(modelName)
 
@@ -58,11 +62,12 @@ export default function() {
     instances.sort((a, b) => b.position[2] - a.position[2])
 
     for (const [index, surface] of pbaGeom.surfaces.entries()) {
-      const texture = textures[surface.textureID] || textures[0]
+      const texture = textures[surface.textureID] || defaultTexture
 
       const material = loadNatureMaterial()
       material.uniforms.uTime = Viewer.timeUniform
       material.uniforms.uTexture = new Uniform(texture)
+      material.uniforms.uAlphaTest = new Uniform(0)
 
       const geometry = loadNatureGeometry(pbaGeom.vertices[index], surface.indices)
       geometry.setAttribute('aWind', instanceWind)
@@ -83,15 +88,17 @@ export default function() {
 
       switch (surface.materialFlags) {
         case MaterialType.ALPHATEST:
-        material.alphaTest = .5
+        material.transparent = true
+        material.uniforms.uAlphaTest.value = 0.5
         break
         case MaterialType.ALPHA:
         material.transparent = true
-        material.alphaTest = .75
+        material.uniforms.uAlphaTest.value = 0.75
         const edgeMesh = mesh.clone()
         edgeMesh.material = material.clone()
-        edgeMesh.material.uniforms = material.uniforms
-        edgeMesh.material.alphaTest = .1
+        edgeMesh.material.uniforms.uTime = Viewer.timeUniform
+        edgeMesh.material.uniforms.uTexture = new Uniform(texture)
+        edgeMesh.material.uniforms.uAlphaTest = new Uniform(0.1)
         edgeMesh.material.depthFunc = LessDepth
         edgeMesh.material.depthWrite = false
         edgeMesh.renderOrder = 1

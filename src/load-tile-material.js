@@ -1,4 +1,4 @@
-import { ShaderMaterial } from './three/build/three.module.js'
+import { ShaderMaterial } from 'three'
 
 export default function createMaterial() {
   return new ShaderMaterial({
@@ -45,8 +45,8 @@ export default function createMaterial() {
       varying vec3 vTileFlag;
 
       void main() {
-        vec4 top = texture(uTexture, vec3(vTileLayer.xy, vTileLayer.z));
-        vec4 bottom = texture(uTexture, vec3(vTileLayer.xy, vTileLayer.w));
+        vec4 top = texture(uTexture, vTileLayer.xyz);
+        vec4 bottom = texture(uTexture, vTileLayer.xyw);
 
         vec4 logic = vec4(1.0, 0.0, 0.0, 0.0);
         vec4 type = vec4(0.0, 1.0, 0.0, 0.0);

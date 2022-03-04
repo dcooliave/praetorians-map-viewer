@@ -1,9 +1,8 @@
 import {
-  DataTexture2DArray,
+  DataArrayTexture,
   NearestFilter,
-  RGBAFormat,
   UnsignedByteType
-} from './three/build/three.module.js'
+} from 'three'
 
 export default function(pve) {
   const sizeX = pve.width * 2 + 1
@@ -27,12 +26,11 @@ export default function(pve) {
 
   layers.set(temp, colors.byteLength)
 
-  const texture = new DataTexture2DArray(layers, sizeX, sizeY, depth)
-
+  const texture = new DataArrayTexture(layers, sizeX, sizeY, depth)
   texture.magFilter = NearestFilter
   texture.minFilter = NearestFilter
-  texture.format = RGBAFormat
   texture.type = UnsignedByteType
+  texture.needsUpdate = true
 
   return texture
 }

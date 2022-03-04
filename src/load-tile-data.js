@@ -2,7 +2,7 @@ import {
   InterleavedBuffer,
   InstancedInterleavedBuffer,
   InterleavedBufferAttribute
-} from './three/build/three.module.js'
+} from 'three'
 
 import { TileFlags } from './parse-pve.js'
 

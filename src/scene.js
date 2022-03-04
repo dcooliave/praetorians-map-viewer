@@ -3,9 +3,9 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer
-} from './three/build/three.module.js'
+} from 'three'
 
-import { MapControls } from './three/examples/jsm/controls/OrbitControls.js'
+import { MapControls } from 'orbit-controls'
 
 import { TileTypes, TileLogic } from './parse-mlg.js'
 import { TileFlags } from './parse-pve.js'
@@ -55,8 +55,6 @@ function init() {
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setClearColor(0x000000)
   renderer.setAnimationLoop(animate)
-
-  // renderer.sortObjects = false
 
   container.appendChild(renderer.domElement)
 

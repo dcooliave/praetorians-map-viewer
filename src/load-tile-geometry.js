@@ -2,7 +2,7 @@ import {
   InterleavedBuffer,
   InstancedBufferGeometry,
   InterleavedBufferAttribute
-} from './three/build/three.module.js'
+} from 'three'
 
 export default function() {
   const size = 5

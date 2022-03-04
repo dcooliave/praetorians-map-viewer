@@ -1,4 +1,4 @@
-import { InstancedBufferAttribute } from './three/build/three.module.js'
+import { InstancedBufferAttribute } from 'three'
 
 export default function(mob) {
   const data = []

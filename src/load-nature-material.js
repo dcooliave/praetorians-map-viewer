@@ -1,4 +1,4 @@
-import { ShaderMaterial } from './three/build/three.module.js'
+import { ShaderMaterial } from 'three'
 
 export default function() {
   return new ShaderMaterial({
@@ -26,6 +26,7 @@ export default function() {
     `,
     fragmentShader: `
       uniform sampler2D uTexture;
+      uniform float uAlphaTest;
 
       varying vec4 vcolor;
       varying vec2 vuv;
@@ -33,9 +34,7 @@ export default function() {
       void main() {
         vec4 color = texture2D(uTexture, vuv) * vcolor;
 
-        #ifdef ALPHATEST
-        if (color.a < ALPHATEST) discard;
-        #endif
+        if (color.a < uAlphaTest) discard;
 
         gl_FragColor = color.bgra;
       }

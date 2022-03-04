@@ -1,4 +1,4 @@
-import { Mesh, Uniform } from './three/build/three.module.js'
+import { Mesh, Uniform } from 'three'
 
 import loadWaterGeometry from './load-water-geometry.js'
 import loadWaterMaterial from './load-water-material.js'

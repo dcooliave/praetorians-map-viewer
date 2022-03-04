@@ -1,4 +1,4 @@
-import { Mesh, Uniform } from './three/build/three.module.js'
+import { Mesh, Uniform } from 'three'
 
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'
