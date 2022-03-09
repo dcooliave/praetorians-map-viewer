@@ -8,7 +8,7 @@ export default function createMaterial() {
 
       attribute vec2 aLayer;
       attribute vec2 aCoordinate;
-      attribute vec3 aOrientation;
+      attribute mat2 aOrientation;
       attribute vec3 aFlag;
 
       varying vec4 vTileLayer;
@@ -20,12 +20,7 @@ export default function createMaterial() {
         vec4 data0 = texelFetch(uDataset, ivec3(coord, 0), 0);
         vec4 data1 = texelFetch(uDataset, ivec3(coord, 1), 0);
 
-        float size = .9;
-        float angle = aOrientation.x;
-        vec2 mirror = aOrientation.yz;
-        mat2 rotation = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
-
-        vTileLayer.xy = (uv - 0.5) * rotation * mirror * size + 0.5;
+        vTileLayer.xy = (uv - 0.5) * aOrientation + 0.5;
         vTileLayer.zw = aLayer;
 
         vVertexColor = data0;

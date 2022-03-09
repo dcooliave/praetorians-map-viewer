@@ -7,7 +7,7 @@ import {
 import { TileFlags } from './parse-pve.js'
 
 export default function(pve) {
-  const size = 7
+  const size = 8
   const buffer = new ArrayBuffer(pve.tiles.length * size * 4)
   const floats = new Float32Array(buffer)
 
@@ -21,18 +21,24 @@ export default function(pve) {
     floats[offset++] = i % pve.width
     floats[offset++] = Math.floor(i / pve.width)
 
-    if (TileFlags.TEXTURE_ROTATE90 & tile.flags) {
-      floats[offset++] = Math.PI * .5
-    } else if (TileFlags.TEXTURE_ROTATE180 & tile.flags) {
-      floats[offset++] = Math.PI
-    } else if (TileFlags.TEXTURE_ROTATE270 & tile.flags) {
-      floats[offset++] = Math.PI * 1.5
-    } else {
-      floats[offset++] = 0
-    }
+    let rotate = 0
 
-    floats[offset++] = (TileFlags.TEXTURE_MIRRORX & tile.flags) ? -1 : 1
-    floats[offset++] = (TileFlags.TEXTURE_MIRRORY & tile.flags) ? -1 : 1
+    if (TileFlags.TEXTURE_ROTATE90 & tile.flags) rotate = 0.5 * Math.PI
+    else if (TileFlags.TEXTURE_ROTATE180 & tile.flags) rotate = Math.PI
+    else if (TileFlags.TEXTURE_ROTATE270 & tile.flags) rotate = 1.5 * Math.PI
+
+    const si = Math.sin(rotate)
+    const co = Math.cos(rotate)
+
+    const mx = (TileFlags.TEXTURE_MIRRORX & tile.flags) ? -1 : 1
+    const my = (TileFlags.TEXTURE_MIRRORY & tile.flags) ? -1 : 1
+
+    const sc = 0.9
+
+    floats[offset++] = sc * mx * co
+    floats[offset++] = sc * mx * si * -1
+    floats[offset++] = sc * my * si
+    floats[offset++] = sc * my * co
   }
 
   const floatBuffer = new InstancedInterleavedBuffer(floats, size)
@@ -40,6 +46,6 @@ export default function(pve) {
   return {
     layer: new InterleavedBufferAttribute(floatBuffer, 2, 0),
     coordinate: new InterleavedBufferAttribute(floatBuffer, 2, 2),
-    orientation: new InterleavedBufferAttribute(floatBuffer, 3, 4)
+    orientation: new InterleavedBufferAttribute(floatBuffer, 4, 4)
   }
 }
