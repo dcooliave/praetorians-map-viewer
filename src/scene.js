@@ -147,8 +147,8 @@ function animate(time) {
 }
 
 function resize(entries) {
-  const [{ contentRect }] = entries
-  camera.aspect = contentRect.width / contentRect.height
+  const [{ devicePixelContentBoxSize: [box] }] = entries
+  camera.aspect = box.inlineSize / box.blockSize
   camera.updateProjectionMatrix()
-  renderer.setSize(contentRect.width, contentRect.height)
+  renderer.setSize(box.inlineSize, box.blockSize)
 }
