@@ -7,19 +7,19 @@ import {
 import { TileFlags } from './parse-pve.js'
 
 export default function(pve) {
-  const size = 8
-  const buffer = new ArrayBuffer(pve.tiles.length * size * 4)
-  const floats = new Float32Array(buffer)
+  const block = 24
+  const buffer = new ArrayBuffer(pve.tiles.length * block)
+  const data = new DataView(buffer)
 
   for (let i = 0; i < pve.tiles.length; i++) {
     const tile = pve.tiles[i]
-    let offset = i * size
+    const offset = i * block
 
-    floats[offset++] = tile.blend == -1 ? tile.base : tile.blend
-    floats[offset++] = tile.base
+    data.setUint16(offset, tile.blend == -1 ? tile.base : tile.blend, true)
+    data.setUint16(offset + 2, tile.base, true)
 
-    floats[offset++] = i % pve.width
-    floats[offset++] = Math.floor(i / pve.width)
+    data.setUint16(offset + 4, i % pve.width, true)
+    data.setUint16(offset + 6, Math.floor(i / pve.width), true)
 
     let rotate = 0
 
@@ -35,17 +35,17 @@ export default function(pve) {
 
     const sc = 0.9
 
-    floats[offset++] = sc * mx * co
-    floats[offset++] = sc * mx * si * -1
-    floats[offset++] = sc * my * si
-    floats[offset++] = sc * my * co
+    data.setFloat32(offset + 8, sc * mx * co, true)
+    data.setFloat32(offset + 12, sc * mx * si * -1, true)
+    data.setFloat32(offset + 16, sc * my * si, true)
+    data.setFloat32(offset + 20, sc * my * co, true)
   }
 
-  const floatBuffer = new InstancedInterleavedBuffer(floats, size)
+  const shorts = new InstancedInterleavedBuffer(new Uint16Array(buffer), block / 2)
+  const floats = new InstancedInterleavedBuffer(new Float32Array(buffer), block / 4)
 
   return {
-    layer: new InterleavedBufferAttribute(floatBuffer, 2, 0),
-    coordinate: new InterleavedBufferAttribute(floatBuffer, 2, 2),
-    orientation: new InterleavedBufferAttribute(floatBuffer, 4, 4)
+    layer: new InterleavedBufferAttribute(shorts, 4, 0),
+    orientation: new InterleavedBufferAttribute(floats, 4, 2)
   }
 }

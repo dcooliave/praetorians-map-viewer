@@ -6,8 +6,7 @@ export default function createMaterial() {
       uniform lowp sampler2DArray uDataset;
       uniform vec2 uElevation;
 
-      attribute vec2 aLayer;
-      attribute vec2 aCoordinate;
+      attribute vec4 aLayer;
       attribute mat2 aOrientation;
       attribute vec3 aFlag;
 
@@ -16,17 +15,17 @@ export default function createMaterial() {
       varying vec3 vTileFlag;
 
       void main() {
-        vec2 coord = (aCoordinate + uv) / 0.5;
+        vec2 coord = (aLayer.zw + uv) / 0.5;
         vec4 data0 = texelFetch(uDataset, ivec3(coord, 0), 0);
         vec4 data1 = texelFetch(uDataset, ivec3(coord, 1), 0);
 
         vTileLayer.xy = (uv - 0.5) * aOrientation + 0.5;
-        vTileLayer.zw = aLayer;
+        vTileLayer.zw = aLayer.xy;
 
         vVertexColor = data0;
         vTileFlag = aFlag;
 
-        vec3 pos = vec3(aCoordinate.x, 0, aCoordinate.y) + position;
+        vec3 pos = vec3(aLayer.z, 0, aLayer.w) + position;
         pos.y += data1.r * (uElevation.x - uElevation.y) + uElevation.y;
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);

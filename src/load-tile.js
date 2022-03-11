@@ -32,7 +32,6 @@ export default function() {
 
   const geometry = loadTileGeometry()
   geometry.setAttribute('aLayer', instanceData.layer)
-  geometry.setAttribute('aCoordinate', instanceData.coordinate)
   geometry.setAttribute('aOrientation', instanceData.orientation)
   geometry.setAttribute('aFlag', instanceType)
   geometry.instanceCount = instanceCount
