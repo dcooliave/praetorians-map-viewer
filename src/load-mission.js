@@ -16,12 +16,9 @@ function getFileName(str) {
 function findFile(path) {
   const s = path.toLowerCase()
   const map = files[s.slice(s.lastIndexOf('.') + 1)]
+  const key = [...map.keys()].filter(k => k.endsWith(s)).at(-1)
 
-  for (const key of map.keys()) {
-    if (key.endsWith(s)) {
-      return map.get(key)
-    }
-  }
+  return map.get(key)
 }
 
 function readText(path) {
