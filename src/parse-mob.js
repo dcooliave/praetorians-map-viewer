@@ -5,7 +5,6 @@ export default function(buffer) {
   const signature = cursor.readChars(4)
   const numObjects = cursor.readUint()
 
-  const objects = []
   const map = new Map()
 
   for (let i = 0; i < numObjects; i++) {
@@ -21,22 +20,5 @@ export default function(buffer) {
     else map.set(object.name, [object])
   }
 
-
-  for (const instances of map.values()) {
-    objects.push(...removeDuplicates(instances))
-  }
-
-  return objects
-}
-
-export function removeDuplicates(items) {
-  return items.filter((obj, i, arr) => {
-    const pos = obj.position
-
-    return i == arr.findIndex(o => {
-      const p = o.position
-
-      return (p[0] == pos[0] && p[1] == pos[1] && p[2] == pos[2])
-    })
-  })
+  return [...map.values()].flat()
 }
