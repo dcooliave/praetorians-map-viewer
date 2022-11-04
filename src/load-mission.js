@@ -14,39 +14,18 @@ function getFileName(str) {
 }
 
 function findFile(path) {
-  const s = path.toLowerCase()
-  const map = files[s.slice(s.lastIndexOf('.') + 1)]
-  const key = [...map.keys()].filter(k => k.endsWith(s)).at(-1)
-
-  return map.get(key)
-}
-
-function readText(path) {
   return new Promise((resolve, reject) => {
-    findFile(path).file(file => {
-      const reader = new FileReader()
-      reader.addEventListener('loadend', () => resolve(reader.result))
-      reader.addEventListener('error', reject)
-      reader.readAsText(file)
-    }, reject)
-  })
-}
-
-function readBuffer(path) {
-  return new Promise((resolve, reject) => {
-    findFile(path).file(file => {
-      const reader = new FileReader()
-      reader.addEventListener('loadend', () => resolve(reader.result))
-      reader.addEventListener('error', reject)
-      reader.readAsArrayBuffer(file)
-    }, reject)
+    const s = path.toLowerCase()
+    const map = files[s.slice(s.lastIndexOf('.') + 1)]
+    const key = [...map.keys()].filter(k => k.endsWith(s)).at(-1)
+    map.get(key).file(resolve, reject)
   })
 }
 
 function readObjects(mob) {
   const map = new Map()
   const names = new Set(mob.map(obj => obj.name.toLowerCase()))
-  names.forEach(name => map.set(name, readBuffer(`/${name}.pba`).then(parsePBA)))
+  names.forEach(name => map.set(name, findFile(`/${name}.pba`).then(f => f.arrayBuffer()).then(parsePBA)))
   return map
 }
 
@@ -54,7 +33,7 @@ function readTextures(objects) {
   const map = new Map()
   const objs = [...objects.values()]
   const names = new Set(objs.flatMap(o => o.textures.map(t => t.toLowerCase())))
-  names.forEach(name => map.set(name, readBuffer(`/${name}.ptx`).then(parsePTX)))
+  names.forEach(name => map.set(name, findFile(`/${name}.ptx`).then(f => f.arrayBuffer()).then(parsePTX)))
   return map
 }
 
@@ -67,12 +46,12 @@ async function parseObjects(objects) {
 }
 
 export default async function(name) {
-  const mis = readText(name).then(parseMSS)
-  const pve = mis.then(({ VISUAL }) => readBuffer(VISUAL)).then(parsePVE)
-  const pte = mis.then(({ VISUAL }) => readBuffer(getFileName(VISUAL) + '.pte')).then(parsePTE)
-  const mlg = mis.then(({ LOGICO }) => readBuffer(LOGICO)).then(parseMLG)
-  const h2o = mis.then(({ AGUA }) => AGUA && readBuffer(AGUA).then(parseH2O))
-  const mob = mis.then(({ OBJETOS }) => readBuffer(OBJETOS)).then(parseMOB)
+  const mis = findFile(name).then(f => f.text()).then(parseMSS)
+  const pve = mis.then(({ VISUAL }) => findFile(VISUAL)).then(f => f.arrayBuffer()).then(parsePVE)
+  const pte = mis.then(({ VISUAL }) => findFile(getFileName(VISUAL) + '.pte')).then(f => f.arrayBuffer()).then(parsePTE)
+  const mlg = mis.then(({ LOGICO }) => findFile(LOGICO)).then(f => f.arrayBuffer()).then(parseMLG)
+  const h2o = mis.then(({ AGUA }) => AGUA && findFile(AGUA).then(f => f.arrayBuffer()).then(parseH2O))
+  const mob = mis.then(({ OBJETOS }) => findFile(OBJETOS)).then(f => f.arrayBuffer()).then(parseMOB)
   const pba = mob.then(readObjects).then(parseObjects)
   const ptx = pba.then(readTextures).then(parseObjects)
 
