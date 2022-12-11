@@ -21,6 +21,7 @@ window.ondragover = window.ondrop = async function(event) {
   event.preventDefault()
 
   if (event.type != 'drop') return
+  if (![...event.dataTransfer.types].includes('Files')) return
 
   if (!scene) init()
 
