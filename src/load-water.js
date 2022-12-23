@@ -25,6 +25,7 @@ export default function() {
       const geometry = loadWaterGeometry(geom.vertices, geom.indices)
       const mesh = new Mesh(geometry, material)
       mesh.matrixAutoUpdate = false
+      mesh.matrix.makeScale(1, 1, -1)
 
       Viewer.resources.add(texture)
       Viewer.resources.add(material)

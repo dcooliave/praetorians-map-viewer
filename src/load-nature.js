@@ -75,6 +75,7 @@ export default function() {
       const mesh = new InstancedMesh(geometry, material, instanceCount)
       mesh.name = pbaMesh.name
       mesh.matrixAutoUpdate = false
+      mesh.matrix.makeScale(1, 1, -1)
 
       for (const [i, obj] of instances.entries()) {
         instanceDummy.position.set(...obj.position)

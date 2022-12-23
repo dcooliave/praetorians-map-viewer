@@ -39,6 +39,7 @@ export default function() {
   const mesh = new Mesh(geometry, material)
   mesh.frustumCulled = false
   mesh.matrixAutoUpdate = false
+  mesh.matrix.makeScale(1, 1, -1)
 
   Viewer.resources.add(texture)
   Viewer.resources.add(dataset)

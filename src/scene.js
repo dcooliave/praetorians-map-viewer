@@ -49,7 +49,6 @@ function init() {
   const rectangle = container.getBoundingClientRect()
 
   scene = new Scene()
-  scene.scale.z = -1
 
   renderer = new WebGLRenderer()
   renderer.setSize(rectangle.width, rectangle.height)
