@@ -3,7 +3,6 @@ import { Mesh, Uniform } from 'three'
 import loadTileTexture from './load-tile-texture.js'
 import loadTileDataset from './load-tile-dataset.js'
 import loadTileMaterial from './load-tile-material.js'
-import loadTileTypes from './load-tile-types.js'
 import loadTileData from './load-tile-data.js'
 import loadTileGeometry from './load-tile-geometry.js'
 
@@ -16,7 +15,6 @@ export default function() {
   const pteData = mission.pte
 
   const instanceCount = pveData.tiles.length
-  const instanceType = loadTileTypes(pveData)
   const instanceData = loadTileData(pveData)
 
   const texture = loadTileTexture(pteData)
@@ -33,7 +31,7 @@ export default function() {
   const geometry = loadTileGeometry()
   geometry.setAttribute('aLayer', instanceData.layer)
   geometry.setAttribute('aOrientation', instanceData.orientation)
-  geometry.setAttribute('aFlag', instanceType)
+  geometry.setAttribute('aFlag', instanceData.type)
   geometry.instanceCount = instanceCount
 
   const mesh = new Mesh(geometry, material)

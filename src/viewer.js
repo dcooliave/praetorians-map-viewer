@@ -46,7 +46,7 @@ const Viewer = {
       const data = new Uint32Array(this.mission.mlg)
 
       for (const [i, logic] of data.entries()) {
-        attribute.array[i * 3 + 1] = (value == (logic & Masks.TERRAIN) >> 27) ? 1 : 0
+        attribute.array[i * attribute.data.stride + attribute.offset + 1] = (value == (logic & Masks.TERRAIN) >> 27) ? 1 : 0
       }
 
       attribute.needsUpdate = true
@@ -61,7 +61,7 @@ const Viewer = {
       const data = new Uint32Array(this.mission.mlg)
 
       for (const [i, logic] of data.entries()) {
-        attribute.array[i * 3] = (value & logic) ? 1 : 0
+        attribute.array[i * attribute.data.stride + attribute.offset] = (value & logic) ? 1 : 0
       }
 
       attribute.needsUpdate = true
@@ -74,7 +74,7 @@ const Viewer = {
 
       const attribute = child.geometry.attributes.aFlag
       for (const [i, tile] of this.mission.pve.tiles.entries()) {
-        attribute.array[i * 3 + 2] = (value & tile.flags) ? 1 : 0
+        attribute.array[i * attribute.data.stride + attribute.offset + 2] = (value & tile.flags) ? 1 : 0
       }
 
       attribute.needsUpdate = true
