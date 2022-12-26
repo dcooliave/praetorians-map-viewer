@@ -61,6 +61,15 @@ export default function() {
     const instances = [...instanceObject]
     instances.sort((a, b) => b.position[2] - a.position[2])
 
+    const instanceMatrices = []
+    for (const obj of instances) {
+      instanceDummy.position.set(...obj.position)
+      instanceDummy.rotation.y = obj.orientation
+      instanceDummy.updateMatrix()
+      instanceDummy.matrix.multiply(meshDummy.matrix)
+      instanceMatrices.push(instanceDummy.matrix.clone())
+    }
+
     for (const [index, surface] of pbaGeom.surfaces.entries()) {
       const texture = textures[surface.textureID] || defaultTexture
 
@@ -77,13 +86,7 @@ export default function() {
       mesh.matrixAutoUpdate = false
       mesh.matrix.makeScale(1, 1, -1)
 
-      for (const [i, obj] of instances.entries()) {
-        instanceDummy.position.set(...obj.position)
-        instanceDummy.rotation.y = obj.orientation
-        instanceDummy.updateMatrix()
-        instanceDummy.matrix.multiply(meshDummy.matrix)
-        mesh.setMatrixAt(i, instanceDummy.matrix)
-      }
+      instanceMatrices.forEach((matrix, i) => mesh.setMatrixAt(i, matrix))
 
       Viewer.nature.add(mesh)
 
