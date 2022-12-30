@@ -57,12 +57,9 @@ export default function() {
     const instanceObject = instanceMap.get(modelName)
     const instanceCount = instanceObject.length
     const instanceWind = loadNatureWind(instanceObject)
-
-    const instances = [...instanceObject]
-    instances.sort((a, b) => b.position[2] - a.position[2])
-
     const instanceMatrices = []
-    for (const obj of instances) {
+
+    for (const obj of instanceObject) {
       instanceDummy.position.set(...obj.position)
       instanceDummy.rotation.y = obj.orientation
       instanceDummy.updateMatrix()
