@@ -30,13 +30,10 @@ export default function() {
   const meshDummy = new Object3D()
   const instanceDummy = new Object3D()
 
-  const modelNames = [...pbaMap.keys()]
-  modelNames.sort()
-
   const defaultTexture = new DataTexture(new Uint8Array([255, 255, 255, 255]))
   defaultTexture.needsUpdate = true
 
-  for (const modelName of modelNames) {
+  for (const modelName of pbaMap.keys()) {
     const model = pbaMap.get(modelName)
 
     const pbaMesh = model.meshes[0]
