@@ -17,7 +17,7 @@ function findFile(path) {
   return new Promise((resolve, reject) => {
     const s = path.toLowerCase()
     const map = files[s.slice(s.lastIndexOf('.') + 1)]
-    const key = [...map.keys()].filter(k => k.endsWith(s)).at(-1)
+    const key = [...map.keys()].find(k => k.endsWith(s))
     map.get(key).file(resolve, reject)
   })
 }
@@ -25,7 +25,7 @@ function findFile(path) {
 function readObjects(mob) {
   const map = new Map()
   const names = new Set(mob.map(obj => obj.name.toLowerCase()))
-  names.forEach(name => map.set(name, findFile(`/${name}.pba`).then(f => f.arrayBuffer()).then(parsePBA)))
+  names.forEach(name => map.set(name, findFile(`objmapa/${name}.pba`).then(f => f.arrayBuffer()).then(parsePBA)))
   return map
 }
 
@@ -33,7 +33,7 @@ function readTextures(objects) {
   const map = new Map()
   const objs = [...objects.values()]
   const names = new Set(objs.flatMap(o => o.textures.map(t => t.toLowerCase())))
-  names.forEach(name => map.set(name, findFile(`/${name}.ptx`).then(f => f.arrayBuffer()).then(parsePTX)))
+  names.forEach(name => map.set(name, findFile(`objmapa/texturas/${name}.ptx`).then(f => f.arrayBuffer()).then(parsePTX)))
   return map
 }
 
