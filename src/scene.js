@@ -17,13 +17,11 @@ let renderer
 let resizer
 let scene
 
-window.ondragover = window.ondrop = async function(event) {
-  event.preventDefault()
+window.addEventListener('dragover', e => e.preventDefault())
+window.addEventListener('drop', e => e.preventDefault())
 
-  if (event.type != 'drop') return
+window.addEventListener('drop', async function(event) {
   if (![...event.dataTransfer.types].includes('Files')) return
-
-  if (!scene) init()
 
   const keys = await Viewer.initialize(event.dataTransfer.items)
   keys.sort()
@@ -42,9 +40,9 @@ window.ondragover = window.ondrop = async function(event) {
       maps.appendChild(option)
     }
   }
-}
+}, { passive: true })
 
-function init() {
+window.addEventListener('drop', function() {
   const container = document.getElementById('scene')
   const rectangle = container.getBoundingClientRect()
 
@@ -81,7 +79,7 @@ function init() {
   document.getElementById('nature').onchange = toggleLayer
   document.getElementById('water').onchange = toggleLayer
   document.getElementById('maps').onchange = selectMap
-}
+}, { once: true, passive: true })
 
 function showFlags(event) {
   const { id, value } = event.target
