@@ -5,7 +5,7 @@ import {
   WebGLRenderer
 } from 'three'
 
-import { MapControls } from 'orbit-controls'
+import { MapControls } from 'controls'
 
 import { TileTypes, TileLogic } from './parse-mlg.js'
 import { TileFlags } from './parse-pve.js'
