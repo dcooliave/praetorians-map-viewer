@@ -32,7 +32,7 @@ const BufferCursor = {
   },
 
   iterator(generator, ...args) {
-    const start = this.position
+    const start = this.data.byteOffset + this.position
 
     return {
       [Symbol.iterator]: () => {
