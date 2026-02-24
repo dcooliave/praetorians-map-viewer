@@ -1,6 +1,4 @@
-# Praetorians Map Viewer
-
-A browser based 3D map viewer for the PC game [Praetorians](https://en.wikipedia.org/wiki/Praetorians_(video_game)). Built with [three.js](https://threejs.org/).
+A map viewer for [Praetorians](https://en.wikipedia.org/wiki/Praetorians_(video_game)), an RTS video game by Pyro Studios.
 
 <img src="https://user-images.githubusercontent.com/10160581/103165480-58e1e880-47cd-11eb-8e40-6b2cc89446aa.jpg" width=50%>
 <img src="https://user-images.githubusercontent.com/10160581/103165482-5b444280-47cd-11eb-88ba-31f7d4ec5abe.jpg" width=50%>
